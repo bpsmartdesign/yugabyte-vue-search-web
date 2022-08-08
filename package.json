@@ -3,15 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start:local": "env-cmd -e local -r ./.env-cmdrc.js vite",
-    "start:dev": "env-cmd -e development -r ./.env-cmdrc.js vite",
-    "start:build": "env-cmd -e production -r ./.env-cmdrc.js vue-tsc --noEmit && vite build",
+    "start:local": "vite",
+    "start:dev": "vite",
+    "start:build": "vue-tsc --noEmit && vite build",
     "start:preview": "vite preview",
     "start:lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src/",
-    "format": "prettier . --write",
-    "test": "env-cmd -e testing -r ./.env-cmdrc.js jest",
-    "docs:dev": "env-cmd -e development -r ./.env-cmdrc.js vuepress dev src/docs",
-    "docs:build": "env-cmd -e production -r ./.env-cmdrc.js vuepress build src/docs"
+    "format": "prettier . --write"
   },
   "dependencies": {
     "animate.css": "^4.1.1",
