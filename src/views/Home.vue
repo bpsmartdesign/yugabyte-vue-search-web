@@ -10,7 +10,7 @@ export default defineComponent({
       toggleShowFilters: true,
       filterLoading: false,
       loading: false,
-      items: [{ id: 1, name: "test" }],
+      items: [],
       tHeader: [
         {
           label: "Product name",
@@ -93,7 +93,7 @@ export default defineComponent({
 
 <template>
   <section class="ss--app_container">
-    <h1>Home page</h1>
+    <h1>Search page</h1>
 
     <div v-show="toggleShowFilters" class="mp--filter_container">
       <div class="mod--content">
