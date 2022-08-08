@@ -22,7 +22,7 @@ const mainWeb: RouteRecordRaw[] = [
   {
     path: "/edit",
     name: "ss--edit",
-    component: () => import("@/views/edit.vue"),
+    component: () => import("@/views/Edit.vue"),
   },
 ]
 //#endregion
