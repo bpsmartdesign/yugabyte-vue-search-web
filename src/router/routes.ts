@@ -17,12 +17,12 @@ const mainWeb: RouteRecordRaw[] = [
   {
     path: "/",
     name: "ss--home_page",
-    component: () => import("@/views/pages/public/Home.vue"),
+    component: () => import("@/views/Home.vue"),
   },
   {
     path: "/edit",
     name: "ss--edit",
-    component: () => import("@/views/pages/public/edit.vue"),
+    component: () => import("@/views/edit.vue"),
   },
 ]
 //#endregion
@@ -33,7 +33,7 @@ const web: RouteRecordRaw = {
   redirect: { name: "ss--home_page" },
   children: [...mainWeb, ...errorWeb],
 
-  component: () => import("@/views/layouts/_pages.vue"),
+  component: () => import("@/views/layout/_pages.vue"),
 }
 
 const routes: RouteRecordRaw[] = [web]
