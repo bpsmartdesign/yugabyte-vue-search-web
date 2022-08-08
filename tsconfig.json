@@ -10,7 +10,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "lib": ["esnext", "dom"],
-    "types": ["vite/client", "node"],
+    "types": ["vite/client", "node", "element-plus/global"],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
