@@ -27,14 +27,5 @@ const mainWeb: RouteRecordRaw[] = [
 ]
 //#endregion
 
-const web: RouteRecordRaw = {
-  path: "/",
-  name: "search--home",
-  redirect: { name: "ss--home_page" },
-  children: [...mainWeb, ...errorWeb],
-
-  component: () => import("@/views/layout/_pages.vue"),
-}
-
-const routes: RouteRecordRaw[] = [web]
+const routes: RouteRecordRaw[] = [...mainWeb, ...errorWeb]
 export default routes
