@@ -1,6 +1,4 @@
 import { RouteRecordRaw } from "vue-router"
-import { checkAppAccess, removeHash, removeQueryParams } from "../utils/route"
-import { Role } from "@/store/data/types.d"
 
 //#region web routes
 const errorWeb: RouteRecordRaw[] = [
