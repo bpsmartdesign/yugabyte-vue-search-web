@@ -8,8 +8,6 @@ export default defineComponent({
 
 <template>
   <h1 class="animate__animated animate__jello">The APP template</h1>
-  <RouterLink to="/">{{ $t("hello") }}</RouterLink> |
-  <RouterLink to="/about">About</RouterLink>
   <RouterView></RouterView>
 </template>
 

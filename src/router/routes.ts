@@ -129,21 +129,9 @@ const mainWeb: RouteRecordRaw[] = [
 ]
 //#endregion
 
-const app: RouteRecordRaw = {
-  path: "/app",
-  name: "cva--app",
-  redirect: { name: "cva--dashboard" },
-  meta: {
-    access: Role.SUBSCRIBER,
-  },
-  component: () => import("@/views/layouts/_app.vue"),
-  beforeEnter: checkAppAccess,
-  children: [],
-}
-
 const web: RouteRecordRaw = {
   path: "/",
-  name: "cva--home",
+  name: "search--home",
   redirect: { name: "cva--home_page" },
   children: [...mainWeb, ...errorWeb, authWeb, blogWeb],
 
