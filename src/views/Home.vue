@@ -243,49 +243,46 @@ const processFilter = () => {
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ elt.name }}
+              {{ elt.supplierId }}
             </span>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ elt.name }}
+              {{ elt.categoryId }}
             </span>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ elt.name }}
+              {{ elt.quantity }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt"> ${{ elt.unitPrice }} </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.unitStock }}
             </span>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ elt.name }}
+              {{ elt.unitOrder }}
             </span>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ elt.name }}
+              {{ elt.reorderLevel }}
             </span>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ elt.name }}
+              {{ elt.discontinued }}
             </span>
           </div>
-          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
-            <span class="elt--txt">
-              {{ elt.name }}
-            </span>
-          </div>
-          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
-            <span class="elt--txt">
-              {{ elt.name }}
-            </span>
-          </div>
-          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
-            <span class="elt--txt">
-              {{ elt.name }}
-            </span>
-          </div>
+          <div
+            class="elt-row"
+            :style="`width: calc(100% / ${tHeader.length})`"
+          ></div>
         </div>
       </template>
     </DataList>

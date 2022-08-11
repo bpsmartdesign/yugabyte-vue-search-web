@@ -67,7 +67,8 @@ $color: #5e72e4;
   .tbl--header {
     width: 100%;
     min-height: 80px;
-    display: flex;
+    display: inline-flex;
+    gap: 0.5rem;
     align-items: center;
     padding: 1.25rem 1rem;
     margin-bottom: 0.75rem;
@@ -100,7 +101,8 @@ $color: #5e72e4;
   .tblb--row {
     width: 100%;
     min-height: 80px;
-    display: flex;
+    display: inline-flex;
+    gap: 0.5rem;
     align-items: center;
     padding: 1.25rem 1rem;
     margin-bottom: 0.5rem;
