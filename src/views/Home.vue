@@ -36,6 +36,11 @@ export interface tableHeader {
   sortable: boolean
   width?: string
 }
+export interface paginationType {
+  total: number
+  perPage: number
+  currentPage: number
+}
 
 const emptyFilter: filterRequestData = {
   product: undefined,
@@ -49,7 +54,7 @@ const emptyFilter: filterRequestData = {
   discontinued: false,
 }
 
-const toggleShowFilters = ref<boolean>(true)
+const toggleShowFilters = ref<boolean>(false)
 const filterLoading = ref<boolean>(false)
 const loading = ref<boolean>(false)
 const items = ref<productResponseData[]>(dummyData.products)
@@ -103,9 +108,26 @@ const tHeader = ref<tableHeader[]>([
   },
   { label: "", key: "", sortable: false },
 ])
+const pagination = ref<paginationType>({
+  total: dummyData.products.length,
+  perPage: 3,
+  currentPage: 1,
+})
+const toShow = ref<productResponseData[]>(
+  dummyData.products.slice(0, pagination.value.perPage)
+)
 
+console.log("to show: ", toShow)
 const processFilter = () => {
   console.log("test")
+}
+
+const handleCurrentChange = (val: number) => {
+  pagination.value.currentPage = val
+  toShow.value = items.value.slice(
+    (val - 1) * pagination.value.perPage,
+    val * pagination.value.perPage
+  )
 }
 
 const getProductSupplier = (id: number) =>
@@ -117,7 +139,33 @@ const getProductCategory = (id: number) =>
 
 <template>
   <section class="ss--app_container">
-    <h1>Search page</h1>
+    <h1>
+      Search page
+      <el-button-group style="float: right">
+        <el-button type="primary">
+          <i
+            class="las la-filter"
+            style="
+              font-size: 0.7rem;
+              display: inline-block;
+              margin-right: 0.5rem;
+            "
+          ></i>
+          Filter
+        </el-button>
+        <el-button type="success">
+          <i
+            class="las la-plus"
+            style="
+              font-size: 0.7rem;
+              display: inline-block;
+              margin-right: 0.5rem;
+            "
+          ></i>
+          Product
+        </el-button>
+      </el-button-group>
+    </h1>
 
     <div v-show="toggleShowFilters" class="mp--filter_container">
       <div class="mod--content">
@@ -239,9 +287,9 @@ const getProductCategory = (id: number) =>
         </el-form>
       </div>
     </div>
-    <DataList :t-header="tHeader" :loading="loading" :items="items">
+    <DataList :t-header="tHeader" :loading="loading" :items="toShow">
       <template #content>
-        <div v-for="(elt, id) in items" :key="id" class="tblb--row">
+        <div v-for="(elt, id) in toShow" :key="id" class="tblb--row">
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
               {{ elt.name }}
@@ -253,9 +301,9 @@ const getProductCategory = (id: number) =>
             </span>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
-            <span class="elt--txt">
+            <el-tag type="info">
               {{ getProductCategory(elt.categoryId) }}
-            </span>
+            </el-tag>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
@@ -292,6 +340,14 @@ const getProductCategory = (id: number) =>
         </div>
       </template>
     </DataList>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :total="pagination.total"
+      :page-size="pagination.perPage"
+      :current-page="pagination.currentPage"
+      @current-change="handleCurrentChange"
+    />
   </section>
 </template>
 
