@@ -131,9 +131,9 @@ const processFilter = () => {
                 >
                   <el-option
                     v-for="item in items"
-                    :key="(item as any).id"
-                    :label="(item as any).name"
-                    :value="(item as any).id"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
                   />
                 </el-select>
               </el-form-item>
@@ -148,9 +148,9 @@ const processFilter = () => {
                 >
                   <el-option
                     v-for="item in items"
-                    :key="(item as any).id"
-                    :label="(item as any).name"
-                    :value="(item as any).id"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
                   />
                 </el-select>
               </el-form-item>
@@ -165,9 +165,9 @@ const processFilter = () => {
                 >
                   <el-option
                     v-for="item in items"
-                    :key="(item as any).id"
-                    :label="(item as any).name ?? ''"
-                    :value="(item as any).id"
+                    :key="item.id"
+                    :label="item.name ?? ''"
+                    :value="item.id"
                   />
                 </el-select>
               </el-form-item>
@@ -237,7 +237,7 @@ const processFilter = () => {
         <div v-for="(elt, id) in items" :key="id" class="tblb--row">
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ (elt as any).name }}
+              {{ elt.name }}
             </span>
           </div>
         </div>
