@@ -1,94 +1,111 @@
-<script lang="ts">
-import { defineComponent } from "vue"
+<script lang="ts" setup>
+import { dummyData } from "@/data/dumy_data"
+import { ref } from "vue"
 import DataList from "./components/data-list.vue"
 
-export default defineComponent({
-  name: "Home",
-  components: { DataList },
-  data() {
-    return {
-      toggleShowFilters: true,
-      filterLoading: false,
-      loading: false,
-      items: [],
-      tHeader: [
-        {
-          label: "Product name",
-          key: "id",
-          sortable: false,
-        },
-        {
-          label: "Supplier",
-          key: "sup",
-          sortable: false,
-        },
-        {
-          label: "Category",
-          key: "cat",
-          sortable: false,
-        },
-        {
-          label: "Quantity Per Unit",
-          key: "qty",
-          sortable: false,
-        },
-        {
-          label: "Unit price",
-          key: "u-price",
-          sortable: false,
-        },
-        {
-          label: "Units in stock",
-          key: "stock",
-          sortable: false,
-        },
-        {
-          label: "Units on order",
-          key: "order",
-          sortable: false,
-        },
-        {
-          label: "Reorder level",
-          key: "level",
-          sortable: false,
-        },
-        {
-          label: "Discontinued",
-          key: "disc",
-          sortable: false,
-        },
-        { label: "", key: "", sortable: false },
-      ],
-      editedFilter: {
-        product: undefined,
-        supplier: undefined,
-        category: undefined,
-        qty: 0,
-        price: 0,
-        stock: 0,
-        order: 0,
-        reorder: 0,
-        discontinued: false,
-      },
-      newFilter: {
-        product: undefined,
-        supplier: undefined,
-        category: undefined,
-        qty: 0,
-        price: 0,
-        stock: 0,
-        order: 0,
-        reorder: 0,
-        discontinued: false,
-      },
-    }
+export interface filterRequestData {
+  product: string | undefined
+  supplier: string | undefined
+  category: string | undefined
+  qty: number
+  price: number
+  stock: number
+  order: number
+  reorder: number
+  discontinued: boolean
+}
+export interface productResponseData {
+  id: number
+  categoryId: number
+  supplierId: number
+  unitStock: string
+  unitOrder: string
+  unitPrice: number
+  reorderLevel: number
+  discontinued: boolean
+  quantity: number
+  name: string
+  description: string
+  author: string
+  type: string
+  img: string
+}
+export interface tableHeader {
+  label: string
+  key: string
+  sortable: boolean
+}
+
+const emptyFilter: filterRequestData = {
+  product: undefined,
+  supplier: undefined,
+  category: undefined,
+  qty: 0,
+  price: 0,
+  stock: 0,
+  order: 0,
+  reorder: 0,
+  discontinued: false,
+}
+
+const toggleShowFilters = ref<boolean>(true)
+const filterLoading = ref<boolean>(false)
+const loading = ref<boolean>(false)
+const items = ref<productResponseData[]>(dummyData.products)
+const editedFilter = ref<filterRequestData>(emptyFilter)
+// const newFilter = ref<filterRequestData>()
+const tHeader = ref<tableHeader[]>([
+  {
+    label: "Product name",
+    key: "id",
+    sortable: false,
   },
-  methods: {
-    processFilter() {
-      console.log("test")
-    },
+  {
+    label: "Supplier",
+    key: "sup",
+    sortable: false,
   },
-})
+  {
+    label: "Category",
+    key: "cat",
+    sortable: false,
+  },
+  {
+    label: "Quantity Per Unit",
+    key: "qty",
+    sortable: false,
+  },
+  {
+    label: "Unit price",
+    key: "u-price",
+    sortable: false,
+  },
+  {
+    label: "Units in stock",
+    key: "stock",
+    sortable: false,
+  },
+  {
+    label: "Units on order",
+    key: "order",
+    sortable: false,
+  },
+  {
+    label: "Reorder level",
+    key: "level",
+    sortable: false,
+  },
+  {
+    label: "Discontinued",
+    key: "disc",
+    sortable: false,
+  },
+  { label: "", key: "", sortable: false },
+])
+
+const processFilter = () => {
+  console.log("test")
+}
 </script>
 
 <template>
@@ -209,7 +226,7 @@ export default defineComponent({
           </el-row>
           <el-divider />
           <div class="action--btn">
-            <el-button plain >Clear</el-button>
+            <el-button plain>Clear</el-button>
             <el-button type="primary" plain>Search</el-button>
           </div>
         </el-form>

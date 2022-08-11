@@ -10,7 +10,9 @@ export default defineComponent({
   <main class="ss--main">
     <aside class="ss--aside"></aside>
     <section class="ss--app">
-      <header class="ss--header">Vue Search app, with Northwind Database</header>
+      <header class="ss--header">
+        Vue Search app, with Northwind Database
+      </header>
       <RouterView></RouterView>
     </section>
   </main>
@@ -44,7 +46,8 @@ export default defineComponent({
     }
 
     .ss--app_container {
-      min-height: 300px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
       padding: 1rem;
     }
   }
