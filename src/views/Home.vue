@@ -107,6 +107,12 @@ const tHeader = ref<tableHeader[]>([
 const processFilter = () => {
   console.log("test")
 }
+
+const getProductSupplier = (id: number) =>
+  dummyData.suppliers.find((s) => s.id === id)?.name
+
+const getProductCategory = (id: number) =>
+  dummyData.categories.find((c) => c.id === id)?.name
 </script>
 
 <template>
@@ -243,12 +249,12 @@ const processFilter = () => {
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ elt.supplierId }}
+              {{ getProductSupplier(elt.supplierId) }}
             </span>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
-              {{ elt.categoryId }}
+              {{ getProductCategory(elt.categoryId) }}
             </span>
           </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
