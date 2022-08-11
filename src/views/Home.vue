@@ -34,6 +34,7 @@ export interface tableHeader {
   label: string
   key: string
   sortable: boolean
+  width?: string
 }
 
 const emptyFilter: filterRequestData = {
@@ -235,6 +236,51 @@ const processFilter = () => {
     <DataList :t-header="tHeader" :loading="loading" :items="items">
       <template #content>
         <div v-for="(elt, id) in items" :key="id" class="tblb--row">
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <span class="elt--txt">
+              {{ elt.name }}
+            </span>
+          </div>
           <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
             <span class="elt--txt">
               {{ elt.name }}

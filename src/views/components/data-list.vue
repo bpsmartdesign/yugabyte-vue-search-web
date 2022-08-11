@@ -35,31 +35,22 @@ export default defineComponent({
 
 <template>
   <div class="ss_dtb">
-    <header v-if="customSizes" class="tbl--header mb-3">
+    <header class="tbl--header">
       <div
         v-for="elt in tHeader"
         :key="(elt as any).id"
         class="elt--header"
-        :style="'width: ' + (elt as any).width"
+        :style="`width: calc(100% / ${tHeader!.length})`"
       >
         <span class="th--label">{{ (elt as any).label }}</span>
       </div>
     </header>
-    <table v-else class="ss--table">
-      <thead class="tbl--head mb-3">
-        <tr>
-          <th v-for="elt in tHeader" :key="(elt as any).id">
-            <span class="th--label">{{ (elt as any).label }}</span>
-          </th>
-        </tr>
-      </thead>
-    </table>
-    <div v-loading="loading" class="tbl--body mb-3">
+    <div v-loading="loading" class="tbl--body">
       <template v-if="items.length > 0">
         <slot name="content" />
       </template>
       <template v-else>
-        <div class="tblb--row px-3 py-4">
+        <div class="tblb--row">
           {{ emptyText }}
         </div>
       </template>
@@ -75,17 +66,19 @@ $color: #5e72e4;
 
   .tbl--header {
     width: 100%;
+    min-height: 80px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.45);
+    padding: 1.25rem 1rem;
+    margin-bottom: 0.75rem;
     background: $color;
+    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.45);
+    border-radius: 0.5rem;
+    position: relative;
     color: #ffffff;
     overflow: hidden;
-    border-radius: 0.45rem;
 
     .elt--header {
-      padding: 1.4rem 0.8rem;
       font-size: 0.81rem;
       display: inline-block;
       font-size: 0.75rem;
@@ -93,44 +86,6 @@ $color: #5e72e4;
 
       .tblh--filterable {
         cursor: pointer;
-      }
-    }
-  }
-
-  .ss--table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 15px;
-    table-layout: fixed;
-
-    .tbl--head {
-      width: 100%;
-      box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
-      background: $color;
-      color: #ffffff;
-      overflow: hidden;
-
-      th {
-        padding: 0.8rem;
-        font-size: 0.75rem;
-        font-weight: 800;
-        text-transform: uppercase;
-
-        .th--sort {
-          font-size: 0.6rem;
-        }
-
-        .tblh--filterable {
-          cursor: pointer;
-        }
-
-        &:first-child {
-          border-radius: 0.35rem 0 0 0.35rem;
-        }
-
-        &:last-child {
-          border-radius: 0 0.35rem 0.35rem 0;
-        }
       }
     }
   }
@@ -148,7 +103,7 @@ $color: #5e72e4;
     display: flex;
     align-items: center;
     padding: 1.25rem 1rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     background: #ffffff;
     box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
     border-radius: 0.5rem;
