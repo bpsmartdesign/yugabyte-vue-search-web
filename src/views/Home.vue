@@ -14,20 +14,23 @@ export interface filterRequestData {
   reorder: number
   discontinued: boolean
 }
-export interface productResponseData {
-  id: number
+export interface productRequestData {
   categoryId: number
   supplierId: number
-  unitStock: string
-  unitOrder: string
-  unitPrice: number
-  reorderLevel: number
-  discontinued: boolean
+  unitStock?: string
+  unitOrder?: string
+  unitPrice?: number
+  reorderLevel?: number
+  discontinued?: boolean
   quantity: number
   name: string
-  description: string
-  author: string
-  type: string
+  description?: string
+  author?: string
+  type?: string
+}
+
+export interface productResponseData extends productRequestData {
+  id: number
   img: string
 }
 export interface tableHeader {
@@ -53,12 +56,29 @@ const emptyFilter: filterRequestData = {
   reorder: 0,
   discontinued: false,
 }
+const emptyProduct: productRequestData = {
+  categoryId: 1,
+  supplierId: 1,
+  unitStock: undefined,
+  unitOrder: undefined,
+  unitPrice: undefined,
+  reorderLevel: undefined,
+  discontinued: false,
+  quantity: 0,
+  name: "",
+  description: undefined,
+  author: undefined,
+  type: undefined,
+}
 
 const toggleShowFilters = ref<boolean>(false)
+const toggleAddProductModal = ref<boolean>(false)
 const filterLoading = ref<boolean>(false)
+const addEditLoading = ref<boolean>(false)
 const loading = ref<boolean>(false)
 const items = ref<productResponseData[]>(dummyData.products)
 const editedFilter = ref<filterRequestData>(emptyFilter)
+const editedProduct = ref<productRequestData>(emptyProduct)
 // const newFilter = ref<filterRequestData>()
 const tHeader = ref<tableHeader[]>([
   {
@@ -142,7 +162,10 @@ const getProductCategory = (id: number) =>
     <h1>
       Search page
       <el-button-group style="float: right">
-        <el-button type="primary">
+        <el-button
+          type="primary"
+          @click="toggleShowFilters = !toggleShowFilters"
+        >
           <i
             class="las la-filter"
             style="
@@ -153,7 +176,7 @@ const getProductCategory = (id: number) =>
           ></i>
           Filter
         </el-button>
-        <el-button type="success">
+        <el-button type="success" @click="toggleAddProductModal = true">
           <i
             class="las la-plus"
             style="
@@ -349,6 +372,120 @@ const getProductCategory = (id: number) =>
       @current-change="handleCurrentChange"
     />
   </section>
+
+  <el-dialog v-model="toggleAddProductModal" title="Create | Edit product">
+    <div class="mod--content">
+      <el-form
+        v-loading="addEditLoading"
+        label-position="top"
+        @submit.prevent="processFilter"
+      >
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="Product name">
+              <el-input
+                v-model="editedProduct.name"
+                placeholder="Set the product name"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Supplier">
+              <el-select
+                v-model="editedProduct.supplierId"
+                placeholder="Select"
+                size="large"
+              >
+                <el-option
+                  v-for="item in dummyData.suppliers"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Category">
+              <el-select
+                v-model="editedProduct.categoryId"
+                placeholder="Select"
+                size="large"
+              >
+                <el-option
+                  v-for="item in dummyData.categories"
+                  :key="item.id"
+                  :label="item.name ?? ''"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Quantity Per Unit">
+              <el-input
+                v-model="editedProduct.quantity"
+                placeholder="Quantity Per Unit"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Unit Price">
+              <el-input
+                v-model="editedProduct.unitPrice"
+                placeholder="Unit Price"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Units in stock">
+              <el-input
+                v-model="editedProduct.unitStock"
+                placeholder="Units in stock"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Units on order">
+              <el-input
+                v-model="editedProduct.unitOrder"
+                placeholder="Units on order"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="Reorder Level">
+              <el-input
+                v-model="editedProduct.reorderLevel"
+                placeholder="Reorder Level"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="Discontinued ?">
+              <el-radio-group
+                v-model="editedProduct.discontinued"
+                size="default"
+              >
+                <el-radio-button label="Yes" />
+                <el-radio-button label="No" />
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Product description">
+              <el-input
+                v-model="editedProduct.description"
+                type="textarea"
+                placeholder="Set the product description"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-button type="primary">Create</el-button>
+      </el-form>
+    </div>
+  </el-dialog>
 </template>
 
 <style lang="scss">
@@ -363,41 +500,41 @@ $txtColor: #4b4b71;
   position: relative;
   overflow: hidden;
   padding: 1.5rem 1rem;
+}
+.mod--content {
+  .el-form-item {
+    label {
+      margin: 0 !important;
+      color: rgba($txtColor, 0.7);
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
 
-  .mod--content {
-    .el-form-item {
-      label {
-        margin: 0 !important;
-        color: rgba($txtColor, 0.7);
-        font-weight: 700;
-      }
+    .el-select {
+      width: 100%;
+    }
 
-      .el-select {
-        width: 100%;
-      }
+    .el-radio-button__inner {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
 
-      .el-radio-button__inner {
+    .el-input {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+
+      input {
         width: 100%;
         height: 40px;
         display: flex;
         align-items: center;
-      }
-
-      .el-input {
-        width: 100%;
-        height: 40px;
-        display: flex;
-        align-items: center;
-
-        input {
-          width: 100%;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          padding-top: 12px;
-          padding-bottom: 12px;
-          border-color: $txtColor;
-        }
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-color: $txtColor;
       }
     }
   }
