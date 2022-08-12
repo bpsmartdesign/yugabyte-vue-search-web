@@ -30,8 +30,8 @@ export interface productRequestData {
 }
 
 export interface productResponseData extends productRequestData {
-  id: number
-  img: string
+  id?: number
+  img?: string
 }
 export interface tableHeader {
   label: string
@@ -56,7 +56,7 @@ const emptyFilter: filterRequestData = {
   reorder: 0,
   discontinued: false,
 }
-const emptyProduct: productRequestData = {
+const emptyProduct: productResponseData = {
   categoryId: 1,
   supplierId: 1,
   unitStock: undefined,
@@ -71,6 +71,7 @@ const emptyProduct: productRequestData = {
   type: undefined,
 }
 
+const editedIndex = ref<number>(-1)
 const toggleShowFilters = ref<boolean>(false)
 const toggleAddProductModal = ref<boolean>(false)
 const filterLoading = ref<boolean>(false)
@@ -78,7 +79,7 @@ const addEditLoading = ref<boolean>(false)
 const loading = ref<boolean>(false)
 const items = ref<productResponseData[]>(dummyData.products)
 const editedFilter = ref<filterRequestData>(emptyFilter)
-const editedProduct = ref<productRequestData>(emptyProduct)
+const editedProduct = ref<productResponseData>(emptyProduct)
 // const newFilter = ref<filterRequestData>()
 const tHeader = ref<tableHeader[]>([
   {
@@ -137,9 +138,18 @@ const toShow = ref<productResponseData[]>(
   dummyData.products.slice(0, pagination.value.perPage)
 )
 
-console.log("to show: ", toShow)
 const processFilter = () => {
   console.log("test")
+}
+
+const processAddEditProduct = () => {
+  console.log("test")
+}
+
+const handleEditProduct = (item: productResponseData) => {
+  editedIndex.value = items.value.findIndex((elt) => elt === item)
+  editedProduct.value = Object.assign({}, item)
+  toggleAddProductModal.value = true
 }
 
 const handleCurrentChange = (val: number) => {
@@ -208,7 +218,7 @@ const getProductCategory = (id: number) =>
                   size="large"
                 >
                   <el-option
-                    v-for="item in items"
+                    v-for="item in dummyData.products"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
@@ -225,7 +235,7 @@ const getProductCategory = (id: number) =>
                   size="large"
                 >
                   <el-option
-                    v-for="item in items"
+                    v-for="item in dummyData.suppliers"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
@@ -242,7 +252,7 @@ const getProductCategory = (id: number) =>
                   size="large"
                 >
                   <el-option
-                    v-for="item in items"
+                    v-for="item in dummyData.categories"
                     :key="item.id"
                     :label="item.name ?? ''"
                     :value="item.id"
@@ -356,10 +366,19 @@ const getProductCategory = (id: number) =>
               {{ elt.discontinued }}
             </span>
           </div>
-          <div
-            class="elt-row"
-            :style="`width: calc(100% / ${tHeader.length})`"
-          ></div>
+          <div class="elt-row" :style="`width: calc(100% / ${tHeader.length})`">
+            <el-button type="warning" plain @click="handleEditProduct(elt)">
+              <i
+                class="las la-edit"
+                style="
+                  font-size: 0.7rem;
+                  display: inline-block;
+                  margin-right: 0.5rem;
+                "
+              ></i>
+              Edit
+            </el-button>
+          </div>
         </div>
       </template>
     </DataList>
@@ -378,7 +397,7 @@ const getProductCategory = (id: number) =>
       <el-form
         v-loading="addEditLoading"
         label-position="top"
-        @submit.prevent="processFilter"
+        @submit.prevent="processAddEditProduct"
       >
         <el-row :gutter="20">
           <el-col :span="24">
@@ -467,8 +486,8 @@ const getProductCategory = (id: number) =>
                 v-model="editedProduct.discontinued"
                 size="default"
               >
-                <el-radio-button label="Yes" />
-                <el-radio-button label="No" />
+                <el-radio-button :value="true" label="Yes" />
+                <el-radio-button :value="false" label="No" />
               </el-radio-group>
             </el-form-item>
           </el-col>
